@@ -72,31 +72,6 @@ class Role implements RoleInterface
         return $this->name;
     }
 
-
-    /**
-     * Set depiction
-     *
-     * @param string $depiction
-     *
-     * @return Role
-     */
-    public function setDepiction($depiction)
-    {
-        $this->depiction = $depiction;
-
-        return $this;
-    }
-
-    /**
-     * Get depiction
-     *
-     * @return string
-     */
-    public function getDepiction()
-    {
-        return $this->depiction;
-    }
-
     /**
      * Set description
      *
