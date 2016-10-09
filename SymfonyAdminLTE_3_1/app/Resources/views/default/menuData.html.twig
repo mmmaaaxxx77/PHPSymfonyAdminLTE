@@ -1,0 +1,61 @@
+<script>
+    var MENU_LIST = [
+        /* header Dashboard */
+        {
+            id : "HEADER",
+            title : "DASHBOARD",
+        },
+        {
+            title : "Dashboard",
+            description : "Dashboard",
+            url : _GOBAL_URLS["HOME"],
+            icon : "fa fa-dashboard"
+        },
+
+        /* header crawler */
+        /*{
+            id : "HEADER",
+            title : "CRAWLER",
+        },
+        {
+            title : "爬蟲任務",
+            description : "Dashboard",
+            url : "" + "/dashboard/",
+            icon : "fa fa-fw fa-bug"
+        },
+        {
+            title : "客製程式管理",
+            description : "Dashboard",
+            url : "" + "/dashboard/",
+            icon : "fa fa-fw fa-bug"
+        },*/
+        /* header 基本設定 */
+        {
+            id : "HEADER",
+            title : "BASIC SETTING",
+        },
+        {
+            id : "1",
+            title : "帳號管理",
+            description : "test",
+            url : "#",
+            icon : "fa fa-fw fa-legal",
+            subMenus : [
+                {
+                    id : "1-1",
+                    title : "使用者",
+                    description : "User Management",
+                    url : _GOBAL_URLS["USER_INDEX"],
+                    icon : "fa fa-fw fa-user"
+                },
+                {
+                    id : "1-2",
+                    title : "權限",
+                    description : "Permission Management",
+                    url : _GOBAL_URLS["ROLE_INDEX"],
+                    icon : "fa fa-fw fa-expeditedssl"
+                }
+            ]
+        }
+    ];
+</script>

@@ -1,0 +1,21 @@
+{% extends 'base.html.twig' %}
+
+{% block body %}
+    dashboard
+{% endblock %}
+
+{% block javascripts %}
+    <script src="{{ asset('bundles/javascript/dashboard/dashboard.js')}}"></script>
+
+    <script>
+        function aa(){
+            $.ajax({
+                url: "http://localhost:8888/SymfonyAdminLTE/web/app_dev.php/json2",
+                type: 'GET',
+                success: function (result) {
+                    alert(result)
+                }
+            });
+        }
+    </script>
+{% endblock %}

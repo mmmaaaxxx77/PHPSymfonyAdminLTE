@@ -1,0 +1,213 @@
+{% extends 'base.html.twig' %}
+
+{% block stylesheets %}
+    <link rel="stylesheet" href="{{ asset('bundles/plugin/adminLTE/plugins/datatables/css/dataTables.bootstrap.css') }}">
+{% endblock %}
+
+{% block body %}
+    <div class="row">
+        <div class="col-md-12">
+            <div class="box box-primary">
+                <div class="box-header">
+                    <h3 class="box-title"><i class="fa fa-fw fa-user"></i> 使用者</h3>
+
+                    <div class="box-tools pull-right">
+                    </div>
+                    <!-- /.box-tools -->
+                </div>
+                <!-- /.box-header -->
+                <div class="box-body">
+                    <div class="row">
+                        <div class="col-lg-3 col-xs-6">
+                            <!-- small box -->
+                            <div class="small-box bg-aqua">
+                                <div class="inner" style="cursor: pointer" data-bind="click:function(){filterUserList(null)}">
+                                    <h3>{{ allUserCount }}</h3>
+
+                                    <p>All Users</p>
+                                </div>
+                                <div class="icon">
+                                    <i class="ion ion-person"></i>
+                                </div>
+                                <a href="{{ path('registerUser') }}" class="small-box-footer"><i class="fa fa-plus"></i> Add New User</a>
+                            </div>
+                        </div>
+                        {% for role in roleCount %}
+                        <div class="col-lg-3 col-xs-6">
+                            <!-- small box -->
+                            <div class="small-box bg-aqua">
+                                <div class="inner" style="cursor: pointer" data-bind="click:function(){filterUserList('{{ role.name }}')}">
+                                    <h3>{{ role.count }}</h3>
+
+                                    <p>{{ role.name }} Users</p>
+                                </div>
+                                <div class="icon">
+                                    <i class="ion ion-person"></i>
+                                </div>
+                                <a href="{{ path('registerRoleUser', {'role': role.name}) }}" class="small-box-footer"><i class="fa fa-plus"></i> Add New User</a>
+                            </div>
+                        </div>
+                        {% endfor %}
+
+                    </div>
+                    <div class="col-xs-12">
+                        <table class="table" id="userList">
+                            <thead>
+                            <tr style="border: 0px;">
+                                <th class="text-center" style="width: 15%;">ONLINE</th>
+                                <th class="text-left" style="width: 25%;">USERNAME</th>
+                                <th class="text-left" style="width: 25%;">EMAIL</th>
+                                <th class="text-right" style="width: 15%;">LAST LOGIN</th>
+                                <th class="text-right" style="width: 15%;">DATE JOINED</th>
+                                <th class="text-center" style="width: 25%;"></th>
+                            </tr>
+                            </thead>
+                        </table>
+                    </div>
+                </div>
+                <!-- /.box-body -->
+                <div class="box-footer no-padding">
+
+                </div>
+            </div>
+        </div>
+    </div>
+    <br/>
+
+    {% include 'account/userUrls.html.twig' %}
+
+    <div class="modal fade" id="userDetailDialog" tabindex="-1" role="dialog" data-backdrop="false">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true">×</span></button>
+                    <h4 class="modal-title">使用者資訊</h4>
+                </div>
+                <div class="modal-body">
+                    <div class="col-md-12">
+
+                        <!-- Profile Image -->
+                        <div class="box box-primary">
+                            <div class="box-body box-profile">
+                                <!--<img class="profile-user-img img-responsive img-circle"
+                                     src=""
+                                     data-bind="attr:{src:profileImage}" alt="User profile picture">-->
+
+                                <h3 class="profile-username text-center" data-bind="text:userProfile.username">Johnny
+                                    Tsai</h3>
+
+                                <p class="text-muted text-center"><span data-bind="text:userProfile.name"></span> (<span
+                                            data-bind="text:userProfile.email">root@root.root</span>) </p>
+
+                                <ul class="list-group list-group-unbordered">
+                                    <li class="list-group-item">
+                                        <label>群組</label>
+                                        <select disabled class="form-control" id="groupList" multiple
+                                                data-bind="options: userProfile.groups, selectedOptions: userProfile.selectGroups, optionsText:'name', optionsValue:'id'">
+                                        </select>
+                                    </li>
+                                    <li class="list-group-item">
+                                        <label>權限</label>
+                                        <select disabled class="form-control" id="permissionList" multiple
+                                                data-bind="options: userProfile.permissions, selectedOptions: userProfile.selectPermissions, optionsText:'codename', optionsValue:'id'">
+                                        </select>
+                                    </li>
+                                </ul>
+
+                                <button type="button" class="btn btn-info btn-block" data-dismiss="modal" data-bind="click:function(){showEditWhoAmI();}">編輯使用者</button>
+                                <button type="button" class="btn btn-danger btn-block" data-dismiss="modal" data-bind="click:function(){deleteUser();}">刪除使用者</button>
+                                <button type="button" class="btn btn-default btn-block" data-dismiss="modal">取消</button>
+                            </div>
+                            <!-- /.box-body -->
+                        </div>
+                        <!-- /.box -->
+                    </div>
+                </div>
+                <div class="modal-footer">
+                    <!--<button type="button" class="btn btn-default pull-left" data-dismiss="modal">Close</button>-->
+                </div>
+            </div>
+            <!-- /.modal-content -->
+        </div>
+        <!-- /.modal-dialog -->
+    </div>
+
+    <div class="modal fade" id="userEditDetailDialog" tabindex="-1" role="dialog" data-backdrop="false">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true">×</span></button>
+                    <h4 class="modal-title">使用者資訊</h4>
+                </div>
+                <div class="modal-body">
+                    <div class="col-md-12">
+                        <form class="form-horizontal" name="simpleUserCreate" id="simpleUserCreate">
+                            <!-- Profile Image -->
+                            <div class="box box-primary">
+                                <div class="box-body box-profile">
+                                    <!--<img class="profile-user-img img-responsive img-circle"
+                                         src=""
+                                         data-bind="attr:{src:editprofileImage}" alt="User profile picture">-->
+
+                                    <h3 class="profile-username text-center" data-bind="text:editUserProfile.username">Johnny
+                                        Tsai</h3>
+
+                                    <p class="text-muted text-center"><input type="file" name="edit_profile_image" id="edit_profile_image"></p>
+
+                                    <ul class="list-group list-group-unbordered">
+                                        <li class="list-group-item">
+                                            <label>使用者名稱</label>
+                                            <input type="text" class="form-control" name="name" id=""
+                                                   data-bind="value:editUserProfile.name" placeholder="請輸入姓名">
+                                        </li>
+                                        <li class="list-group-item">
+                                            <label>EMAIL</label>
+                                            <input type="text" class="form-control" name="email" id=""
+                                                   data-bind="value:editUserProfile.email" placeholder="請輸入EMAIL">
+                                        </li>
+                                        <li class="list-group-item">
+                                            <label>群組</label>
+                                            <select class="form-control" id="editGroupList" multiple
+                                                    data-bind="options: editUserProfile.groups, selectedOptions: editUserProfile.selectGroups, optionsText:'name', optionsValue:'id'">
+                                            </select>
+                                        </li>
+                                        <li class="list-group-item">
+                                            <label>權限</label>
+                                            <select class="form-control" id="editPermissionList" multiple
+                                                    data-bind="options: editUserProfile.permissions, selectedOptions: editUserProfile.selectPermissions, optionsText:'codename', optionsValue:'id'">
+                                            </select>
+                                        </li>
+                                    </ul>
+
+                                    <a href="#" class="btn btn-primary btn-block"
+                                       data-bind="click:function(){saveUser()}"><b>儲存</b></a>
+                                    <button type="button" class="btn btn-default btn-block" data-dismiss="modal">取消</button>
+                                </div>
+                                <!-- /.box-body -->
+                            </div>
+                        </form>
+                        <!-- /.box -->
+                    </div>
+                </div>
+                <div class="modal-footer">
+                    <!--<button type="button" class="btn btn-default pull-left" data-dismiss="modal">Close</button>-->
+                </div>
+            </div>
+            <!-- /.modal-content -->
+        </div>
+        <!-- /.modal-dialog -->
+    </div>
+
+{% endblock %}
+
+{% block javascripts %}
+    <script src="{{ asset('bundles/plugin/adminLTE/plugins/datatables/js/jquery.dataTables.min.js')}}"></script>
+    <script src="{{ asset('bundles/plugin/adminLTE/plugins/datatables/js/dataTables.bootstrap.min.js')}}"></script>
+    <script src="{{ asset('bundles/plugin/moment.js')}}"></script>
+    <script src="{{ asset('bundles/plugin/moment-timezone.js')}}"></script>
+
+    <script src="{{ asset('bundles/javascript/account/userIndex.js')}}"></script>
+    <script src="{{ asset('bundles/javascript/account/userModel.js')}}"></script>
+{% endblock %}

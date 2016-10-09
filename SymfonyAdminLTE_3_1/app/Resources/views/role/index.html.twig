@@ -1,0 +1,52 @@
+{% extends 'base.html.twig' %}
+
+{% block stylesheets %}
+    <link rel="stylesheet" href="{{ asset('bundles/plugin/adminLTE/plugins/datatables/css/dataTables.bootstrap.css') }}">
+{% endblock %}
+
+{% block body %}
+    <div class="row">
+        <div class="col-md-12">
+            <div class="box box-primary">
+                <div class="box-header">
+                    <h3 class="box-title"><i class="fa fa-fw fa-user"></i> 權限</h3>
+
+                    <div class="box-tools pull-right">
+                    </div>
+                    <!-- /.box-tools -->
+                </div>
+                <!-- /.box-header -->
+                <div class="box-body">
+                    <div class="col-xs-12">
+                        <table class="table" id="roleList">
+                            <thead>
+                            <tr style="border: 0px;">
+                                <th class="text-center" style="width: 20%;">NAME</th>
+                                <th class="text-center" style="width: 80%;">DESCRIPTION</th>
+                            </tr>
+                            </thead>
+                        </table>
+                    </div>
+                </div>
+                <!-- /.box-body -->
+                <div class="box-footer no-padding">
+
+                </div>
+            </div>
+        </div>
+    </div>
+    <br/>
+
+    {% include 'role/roleUrls.html.twig' %}
+
+{% endblock %}
+
+{% block javascripts %}
+    <script src="{{ asset('bundles/plugin/adminLTE/plugins/datatables/js/jquery.dataTables.min.js')}}"></script>
+    <script src="{{ asset('bundles/plugin/adminLTE/plugins/datatables/js/dataTables.bootstrap.min.js')}}"></script>
+    <script src="{{ asset('bundles/plugin/moment.js')}}"></script>
+    <script src="{{ asset('bundles/plugin/moment-timezone.js')}}"></script>
+
+    <script src="{{ asset('bundles/javascript/role/roleIndex.js')}}"></script>
+    <script src="{{ asset('bundles/javascript/role/roleModel.js')}}"></script>
+{% endblock %}
